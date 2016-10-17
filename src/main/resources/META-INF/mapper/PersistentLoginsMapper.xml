@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linx.persistence.PersistentLoginsDao">
+     <resultMap id="BaseResultMap" type="com.linx.model.PersistentLoginsDo">
+          <id column="SERIES" jdbcType="VARCHAR" property="series" />
+          <result column="USERNAME" jdbcType="VARCHAR" property="username" />
+          <result column="TOKEN" jdbcType="VARCHAR" property="token" />
+          <result column="LAST_USED" jdbcType="TIMESTAMP" property="lastUsed" />
+     </resultMap>
+     <sql id="Query_Where_Clause">
+          <where>
+               <foreach collection="oredCriteria" item="criteria" separator="or">
+                    <if test="criteria.valid">
+                         <trim prefix="(" prefixOverrides="and" suffix=")">
+                              <foreach collection="criteria.criteria" item="criterion">
+                                   <choose>
+                                        <when test="criterion.noValue">
+                                             and ${criterion.condition}
+                                        </when>
+                                        <when test="criterion.singleValue">
+                                             and ${criterion.condition} #{criterion.value}
+                                        </when>
+                                        <when test="criterion.betweenValue">
+                                             and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                        </when>
+                                        <when test="criterion.listValue">
+                                             and ${criterion.condition}
+                                             <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                                  #{listItem}
+                                             </foreach>
+                                        </when>
+                                   </choose>
+                              </foreach>
+                         </trim>
+                    </if>
+               </foreach>
+          </where>
+     </sql>
+     <sql id="Update_By_Query_Where_Clause">
+          <where>
+               <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                    <if test="criteria.valid">
+                         <trim prefix="(" prefixOverrides="and" suffix=")">
+                              <foreach collection="criteria.criteria" item="criterion">
+                                   <choose>
+                                        <when test="criterion.noValue">
+                                             and ${criterion.condition}
+                                        </when>
+                                        <when test="criterion.singleValue">
+                                             and ${criterion.condition} #{criterion.value}
+                                        </when>
+                                        <when test="criterion.betweenValue">
+                                             and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                        </when>
+                                        <when test="criterion.listValue">
+                                             and ${criterion.condition}
+                                             <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                                  #{listItem}
+                                             </foreach>
+                                        </when>
+                                   </choose>
+                              </foreach>
+                         </trim>
+                    </if>
+               </foreach>
+          </where>
+     </sql>
+     <sql id="Base_Column_List">
+          SERIES, USERNAME, TOKEN, LAST_USED
+     </sql>
+     <select id="selectByQuery" parameterType="com.linx.model.PersistentLoginsQuery" resultMap="BaseResultMap">
+          select
+          <if test="distinct">
+               distinct
+          </if>
+          <include refid="Base_Column_List" />
+          from persistent_logins
+          <if test="_parameter != null">
+               <include refid="Query_Where_Clause" />
+          </if>
+          <if test="orderByClause != null">
+               order by ${orderByClause}
+          </if>
+     </select>
+     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+          select 
+          <include refid="Base_Column_List" />
+          from persistent_logins
+          where SERIES = #{series,jdbcType=VARCHAR}
+     </select>
+     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+          delete from persistent_logins
+          where SERIES = #{series,jdbcType=VARCHAR}
+     </delete>
+     <delete id="deleteByQuery" parameterType="com.linx.model.PersistentLoginsQuery">
+          delete from persistent_logins
+          <if test="_parameter != null">
+               <include refid="Query_Where_Clause" />
+          </if>
+     </delete>
+     <insert id="insert" parameterType="com.linx.model.PersistentLoginsDo">
+          insert into persistent_logins (SERIES, USERNAME, TOKEN, 
+               LAST_USED)
+          values (#{series,jdbcType=VARCHAR}, #{username,jdbcType=VARCHAR}, #{token,jdbcType=VARCHAR}, 
+               #{lastUsed,jdbcType=TIMESTAMP})
+     </insert>
+     <insert id="insertSelective" parameterType="com.linx.model.PersistentLoginsDo">
+          insert into persistent_logins
+          <trim prefix="(" suffix=")" suffixOverrides=",">
+               <if test="series != null">
+                    SERIES,
+               </if>
+               <if test="username != null">
+                    USERNAME,
+               </if>
+               <if test="token != null">
+                    TOKEN,
+               </if>
+               <if test="lastUsed != null">
+                    LAST_USED,
+               </if>
+          </trim>
+          <trim prefix="values (" suffix=")" suffixOverrides=",">
+               <if test="series != null">
+                    #{series,jdbcType=VARCHAR},
+               </if>
+               <if test="username != null">
+                    #{username,jdbcType=VARCHAR},
+               </if>
+               <if test="token != null">
+                    #{token,jdbcType=VARCHAR},
+               </if>
+               <if test="lastUsed != null">
+                    #{lastUsed,jdbcType=TIMESTAMP},
+               </if>
+          </trim>
+     </insert>
+     <select id="countByQuery" parameterType="com.linx.model.PersistentLoginsQuery" resultType="java.lang.Integer">
+          select count(*) from persistent_logins
+          <if test="_parameter != null">
+               <include refid="Query_Where_Clause" />
+          </if>
+     </select>
+     <update id="updateByQuerySelective" parameterType="map">
+          update persistent_logins
+          <set>
+               <if test="record.series != null">
+                    SERIES = #{record.series,jdbcType=VARCHAR},
+               </if>
+               <if test="record.username != null">
+                    USERNAME = #{record.username,jdbcType=VARCHAR},
+               </if>
+               <if test="record.token != null">
+                    TOKEN = #{record.token,jdbcType=VARCHAR},
+               </if>
+               <if test="record.lastUsed != null">
+                    LAST_USED = #{record.lastUsed,jdbcType=TIMESTAMP},
+               </if>
+          </set>
+          <if test="_parameter != null">
+               <include refid="Update_By_Query_Where_Clause" />
+          </if>
+     </update>
+     <update id="updateByQuery" parameterType="map">
+          update persistent_logins
+          set SERIES = #{record.series,jdbcType=VARCHAR},
+               USERNAME = #{record.username,jdbcType=VARCHAR},
+               TOKEN = #{record.token,jdbcType=VARCHAR},
+               LAST_USED = #{record.lastUsed,jdbcType=TIMESTAMP}
+          <if test="_parameter != null">
+               <include refid="Update_By_Query_Where_Clause" />
+          </if>
+     </update>
+     <update id="updateByPrimaryKeySelective" parameterType="com.linx.model.PersistentLoginsDo">
+          update persistent_logins
+          <set>
+               <if test="username != null">
+                    USERNAME = #{username,jdbcType=VARCHAR},
+               </if>
+               <if test="token != null">
+                    TOKEN = #{token,jdbcType=VARCHAR},
+               </if>
+               <if test="lastUsed != null">
+                    LAST_USED = #{lastUsed,jdbcType=TIMESTAMP},
+               </if>
+          </set>
+          where SERIES = #{series,jdbcType=VARCHAR}
+     </update>
+     <update id="updateByPrimaryKey" parameterType="com.linx.model.PersistentLoginsDo">
+          update persistent_logins
+          set USERNAME = #{username,jdbcType=VARCHAR},
+               TOKEN = #{token,jdbcType=VARCHAR},
+               LAST_USED = #{lastUsed,jdbcType=TIMESTAMP}
+          where SERIES = #{series,jdbcType=VARCHAR}
+     </update>
+</mapper>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.linx.persistence.SysRolesDao">
+     <resultMap id="BaseResultMap" type="com.linx.model.SysRolesDo">
+          <id column="ROLE_ID" jdbcType="VARCHAR" property="roleId" />
+          <result column="ROLE_NAME" jdbcType="VARCHAR" property="roleName" />
+          <result column="ROLE_DESC" jdbcType="VARCHAR" property="roleDesc" />
+          <result column="ENABLE" jdbcType="INTEGER" property="enable" />
+          <result column="ISSYS" jdbcType="INTEGER" property="issys" />
+          <result column="MODULE_ID" jdbcType="VARCHAR" property="moduleId" />
+     </resultMap>
+     <sql id="Query_Where_Clause">
+          <where>
+               <foreach collection="oredCriteria" item="criteria" separator="or">
+                    <if test="criteria.valid">
+                         <trim prefix="(" prefixOverrides="and" suffix=")">
+                              <foreach collection="criteria.criteria" item="criterion">
+                                   <choose>
+                                        <when test="criterion.noValue">
+                                             and ${criterion.condition}
+                                        </when>
+                                        <when test="criterion.singleValue">
+                                             and ${criterion.condition} #{criterion.value}
+                                        </when>
+                                        <when test="criterion.betweenValue">
+                                             and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                        </when>
+                                        <when test="criterion.listValue">
+                                             and ${criterion.condition}
+                                             <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                                  #{listItem}
+                                             </foreach>
+                                        </when>
+                                   </choose>
+                              </foreach>
+                         </trim>
+                    </if>
+               </foreach>
+          </where>
+     </sql>
+     <sql id="Update_By_Query_Where_Clause">
+          <where>
+               <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                    <if test="criteria.valid">
+                         <trim prefix="(" prefixOverrides="and" suffix=")">
+                              <foreach collection="criteria.criteria" item="criterion">
+                                   <choose>
+                                        <when test="criterion.noValue">
+                                             and ${criterion.condition}
+                                        </when>
+                                        <when test="criterion.singleValue">
+                                             and ${criterion.condition} #{criterion.value}
+                                        </when>
+                                        <when test="criterion.betweenValue">
+                                             and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                        </when>
+                                        <when test="criterion.listValue">
+                                             and ${criterion.condition}
+                                             <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                                                  #{listItem}
+                                             </foreach>
+                                        </when>
+                                   </choose>
+                              </foreach>
+                         </trim>
+                    </if>
+               </foreach>
+          </where>
+     </sql>
+     <sql id="Base_Column_List">
+          ROLE_ID, ROLE_NAME, ROLE_DESC, ENABLE, ISSYS, MODULE_ID
+     </sql>
+     <select id="selectByQuery" parameterType="com.linx.model.SysRolesQuery" resultMap="BaseResultMap">
+          select
+          <if test="distinct">
+               distinct
+          </if>
+          <include refid="Base_Column_List" />
+          from sys_roles
+          <if test="_parameter != null">
+               <include refid="Query_Where_Clause" />
+          </if>
+          <if test="orderByClause != null">
+               order by ${orderByClause}
+          </if>
+     </select>
+     <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+          select 
+          <include refid="Base_Column_List" />
+          from sys_roles
+          where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+     </select>
+     <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+          delete from sys_roles
+          where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+     </delete>
+     <delete id="deleteByQuery" parameterType="com.linx.model.SysRolesQuery">
+          delete from sys_roles
+          <if test="_parameter != null">
+               <include refid="Query_Where_Clause" />
+          </if>
+     </delete>
+     <insert id="insert" parameterType="com.linx.model.SysRolesDo">
+          insert into sys_roles (ROLE_ID, ROLE_NAME, ROLE_DESC, 
+               ENABLE, ISSYS, MODULE_ID
+               )
+          values (#{roleId,jdbcType=VARCHAR}, #{roleName,jdbcType=VARCHAR}, #{roleDesc,jdbcType=VARCHAR}, 
+               #{enable,jdbcType=INTEGER}, #{issys,jdbcType=INTEGER}, #{moduleId,jdbcType=VARCHAR}
+               )
+     </insert>
+     <insert id="insertSelective" parameterType="com.linx.model.SysRolesDo">
+          insert into sys_roles
+          <trim prefix="(" suffix=")" suffixOverrides=",">
+               <if test="roleId != null">
+                    ROLE_ID,
+               </if>
+               <if test="roleName != null">
+                    ROLE_NAME,
+               </if>
+               <if test="roleDesc != null">
+                    ROLE_DESC,
+               </if>
+               <if test="enable != null">
+                    ENABLE,
+               </if>
+               <if test="issys != null">
+                    ISSYS,
+               </if>
+               <if test="moduleId != null">
+                    MODULE_ID,
+               </if>
+          </trim>
+          <trim prefix="values (" suffix=")" suffixOverrides=",">
+               <if test="roleId != null">
+                    #{roleId,jdbcType=VARCHAR},
+               </if>
+               <if test="roleName != null">
+                    #{roleName,jdbcType=VARCHAR},
+               </if>
+               <if test="roleDesc != null">
+                    #{roleDesc,jdbcType=VARCHAR},
+               </if>
+               <if test="enable != null">
+                    #{enable,jdbcType=INTEGER},
+               </if>
+               <if test="issys != null">
+                    #{issys,jdbcType=INTEGER},
+               </if>
+               <if test="moduleId != null">
+                    #{moduleId,jdbcType=VARCHAR},
+               </if>
+          </trim>
+     </insert>
+     <select id="countByQuery" parameterType="com.linx.model.SysRolesQuery" resultType="java.lang.Integer">
+          select count(*) from sys_roles
+          <if test="_parameter != null">
+               <include refid="Query_Where_Clause" />
+          </if>
+     </select>
+     <update id="updateByQuerySelective" parameterType="map">
+          update sys_roles
+          <set>
+               <if test="record.roleId != null">
+                    ROLE_ID = #{record.roleId,jdbcType=VARCHAR},
+               </if>
+               <if test="record.roleName != null">
+                    ROLE_NAME = #{record.roleName,jdbcType=VARCHAR},
+               </if>
+               <if test="record.roleDesc != null">
+                    ROLE_DESC = #{record.roleDesc,jdbcType=VARCHAR},
+               </if>
+               <if test="record.enable != null">
+                    ENABLE = #{record.enable,jdbcType=INTEGER},
+               </if>
+               <if test="record.issys != null">
+                    ISSYS = #{record.issys,jdbcType=INTEGER},
+               </if>
+               <if test="record.moduleId != null">
+                    MODULE_ID = #{record.moduleId,jdbcType=VARCHAR},
+               </if>
+          </set>
+          <if test="_parameter != null">
+               <include refid="Update_By_Query_Where_Clause" />
+          </if>
+     </update>
+     <update id="updateByQuery" parameterType="map">
+          update sys_roles
+          set ROLE_ID = #{record.roleId,jdbcType=VARCHAR},
+               ROLE_NAME = #{record.roleName,jdbcType=VARCHAR},
+               ROLE_DESC = #{record.roleDesc,jdbcType=VARCHAR},
+               ENABLE = #{record.enable,jdbcType=INTEGER},
+               ISSYS = #{record.issys,jdbcType=INTEGER},
+               MODULE_ID = #{record.moduleId,jdbcType=VARCHAR}
+          <if test="_parameter != null">
+               <include refid="Update_By_Query_Where_Clause" />
+          </if>
+     </update>
+     <update id="updateByPrimaryKeySelective" parameterType="com.linx.model.SysRolesDo">
+          update sys_roles
+          <set>
+               <if test="roleName != null">
+                    ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+               </if>
+               <if test="roleDesc != null">
+                    ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
+               </if>
+               <if test="enable != null">
+                    ENABLE = #{enable,jdbcType=INTEGER},
+               </if>
+               <if test="issys != null">
+                    ISSYS = #{issys,jdbcType=INTEGER},
+               </if>
+               <if test="moduleId != null">
+                    MODULE_ID = #{moduleId,jdbcType=VARCHAR},
+               </if>
+          </set>
+          where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+     </update>
+     <update id="updateByPrimaryKey" parameterType="com.linx.model.SysRolesDo">
+          update sys_roles
+          set ROLE_NAME = #{roleName,jdbcType=VARCHAR},
+               ROLE_DESC = #{roleDesc,jdbcType=VARCHAR},
+               ENABLE = #{enable,jdbcType=INTEGER},
+               ISSYS = #{issys,jdbcType=INTEGER},
+               MODULE_ID = #{moduleId,jdbcType=VARCHAR}
+          where ROLE_ID = #{roleId,jdbcType=VARCHAR}
+     </update>
+</mapper>

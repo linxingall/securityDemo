@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+
+<generatorConfiguration>
+
+  <classPathEntry location="C:\Users\linx\Desktop\mybatis-generator\mysql-connector-java-5.1.1.jar" />
+
+  <context id="frms-mgr" targetRuntime="MyBatis3">
+    <plugin type="org.mybatis.generator.plugins.EqualsHashCodePlugin" />
+    <plugin type="org.mybatis.generator.plugins.SerializablePlugin" />
+    <plugin type="org.mybatis.generator.plugins.CaseInsensitiveLikePlugin" />
+
+    <!-- <plugin type="org.mybatis.generator.plugins.MapperConfigPlugin"> <property name="targetPackage" value="mybatis"
+      /> <property name="targetProject" value="../rtms-orm/src/main/resources" /> </plugin> -->
+    <commentGenerator>
+      <property name="suppressDate" value="true" />
+      <property name="suppressAllComments" value="false" />
+      <property name="addRemarkComments" value="true"/>
+	  <property name="javaFileEncoding" value="UTF-8"/>
+    </commentGenerator>
+    <jdbcConnection driverClass="com.mysql.jdbc.Driver" connectionURL="jdbc:mysql://118.178.18.239:3306/auth?characterEncoding=UTF-8"
+      userId="dev" password="gdn2016">
+    </jdbcConnection>
+
+    <javaTypeResolver>
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+    <javaModelGenerator  targetPackage="com.linx.model" targetProject="./src/main/java">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+
+    <sqlMapGenerator targetPackage="mapper" targetProject="./src/main/resources/META-INF">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.linx.persistence"
+      targetProject="./src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+    <table schema="auth" tableName="persistent_logins" domainObjectName="PersistentLogins">
+      <property name="useActualColumnNames" value="false" />
+      <property name="ignoreQualifiersAtRuntime" value="true" />
+      <property name="constructorBased" value="false" />
+    </table>
+    <table schema="auth" tableName="sys_authorities" domainObjectName="SysAuthorities">
+      <property name="useActualColumnNames" value="false" />
+      <property name="ignoreQualifiersAtRuntime" value="true" />
+      <property name="constructorBased" value="false" />
+    </table>
+    <table schema="auth" tableName="sys_authorities_resources" domainObjectName="SysAuthoritiesResources">
+      <property name="useActualColumnNames" value="false" />
+      <property name="ignoreQualifiersAtRuntime" value="true" />
+      <property name="constructorBased" value="false" />
+    </table>
+    <table schema="auth" tableName="sys_resources" domainObjectName="SysResources">
+      <property name="useActualColumnNames" value="false" />
+      <property name="ignoreQualifiersAtRuntime" value="true" />
+      <property name="constructorBased" value="false" />
+    </table>
+    <table schema="auth" tableName="sys_roles" domainObjectName="SysRoles">
+      <property name="useActualColumnNames" value="false" />
+      <property name="ignoreQualifiersAtRuntime" value="true" />
+      <property name="constructorBased" value="false" />
+    </table>
+    <table schema="auth" tableName="sys_roles_authorities" domainObjectName="SysRolesAuthorities">
+      <property name="useActualColumnNames" value="false" />
+      <property name="ignoreQualifiersAtRuntime" value="true" />
+      <property name="constructorBased" value="false" />
+    </table>
+    <table schema="auth" tableName="sys_roles_moudles" domainObjectName="SysRolesMoudles">
+      <property name="useActualColumnNames" value="false" />
+      <property name="ignoreQualifiersAtRuntime" value="true" />
+      <property name="constructorBased" value="false" />
+    </table>
+    <table schema="auth" tableName="sys_users" domainObjectName="SysUsers">
+      <property name="useActualColumnNames" value="false" />
+      <property name="ignoreQualifiersAtRuntime" value="true" />
+      <property name="constructorBased" value="false" />
+    </table>
+    <table schema="auth" tableName="sys_users_roles" domainObjectName="SysUsersRoles">
+      <property name="useActualColumnNames" value="false" />
+      <property name="ignoreQualifiersAtRuntime" value="true" />
+      <property name="constructorBased" value="false" />
+    </table>
+
+  </context>
+</generatorConfiguration>
