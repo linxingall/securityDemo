@@ -1,11 +1,13 @@
 package com.linx.persistence;
 
+import com.linx.entity.SysResourceAuth;
 import com.linx.model.SysResourcesDo;
 import com.linx.model.SysResourcesQuery;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
 public interface SysResourcesDao {
+    List<SysResourceAuth> getURLResourceMapping();
     /**
      * sys_resources
      */

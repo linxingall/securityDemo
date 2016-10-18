@@ -88,6 +88,18 @@
                order by ${orderByClause}
           </if>
      </select>
+
+     <resultMap id="SysResourceAuthMap" type="com.linx.entity.SysResourceAuth">
+          <id column="resource_path" jdbcType="VARCHAR" property="resourcePath" />
+          <result column="authority_mark" jdbcType="VARCHAR" property="authorityMark" />
+     </resultMap>
+     <select id="getURLResourceMapping"  resultMap="SysResourceAuthMap">
+          SELECT S3.RESOURCE_PATH resource_path,S2.AUTHORITY_MARK authority_mark
+           FROM SYS_AUTHORITIES_RESOURCES S1
+          JOIN SYS_AUTHORITIES S2 ON S1.AUTHORITY_ID = S2.AUTHORITY_ID
+          JOIN SYS_RESOURCES S3 ON S1.RESOURCE_ID = S3.RESOURCE_ID
+           where S3.RESOURCE_TYPE='URL'
+     </select>
      <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
           select 
           <include refid="Base_Column_List" />

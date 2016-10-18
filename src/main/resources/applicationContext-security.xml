@@ -30,17 +30,23 @@
 
         <sec:session-management invalid-session-url="/login.jsp" />
 
-        <sec:intercept-url pattern="/app.jsp" access="AUTH_LOGIN"/>
-        <sec:intercept-url pattern="/**" access="AUTH_GG_FBGBGG"/>
-
         <sec:form-login login-page="/login.jsp"
                         login-processing-url="/login.do"
                         authentication-failure-url="/login.jsp"
                         authentication-success-handler-ref="authenticationSuccessHandler"
         />
 
-    </sec:http>
+        <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"/>
 
+    </sec:http>
+    <bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+        <property name="accessDecisionManager" ref="accessDecisionManager" />
+        <property name="authenticationManager" ref="authenticationManager" />
+        <property name="securityMetadataSource" ref="securityMetadataSource" />
+    </bean>
+
+    <bean id="securityMetadataSource"
+          class="com.linx.web.URLFilterInvocationSecurityMetadataSource"/>
     <!-- 自定义权限不足处理程序 -->
     <bean id="accessDeniedHandler" class="com.linx.web.DefaultAccessDeniedHandler">
         <property name="errorPage" value="/WEB-INF/error/403.jsp"></property>
