@@ -47,12 +47,13 @@
 
     <bean id="securityMetadataSource"
           class="com.linx.web.URLFilterInvocationSecurityMetadataSource"/>
+
     <!-- 自定义权限不足处理程序 -->
     <bean id="accessDeniedHandler" class="com.linx.web.DefaultAccessDeniedHandler">
         <property name="errorPage" value="/WEB-INF/error/403.jsp"></property>
     </bean>
 
-    <sec:authentication-manager>
+    <sec:authentication-manager alias="authenticationManager">
         <sec:authentication-provider ref="authenticationProvider" />
     </sec:authentication-manager>
 

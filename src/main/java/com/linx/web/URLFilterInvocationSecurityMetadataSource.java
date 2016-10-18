@@ -2,10 +2,12 @@ package com.linx.web;
 
 import com.linx.entity.SysResourceAuth;
 import com.linx.persistence.SysResourcesDao;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -47,6 +49,9 @@ public class URLFilterInvocationSecurityMetadataSource implements
             }
         }
         logger.info("URL资源："+request.getRequestURI()+ " -> " + attrs);
+        if(CollectionUtils.isEmpty(attrs)){
+            throw new AccessDeniedException("该用户没有权限");
+        }
         return attrs;
     }
 
